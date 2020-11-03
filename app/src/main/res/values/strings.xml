@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">matrimonial-app</string>
+    <string name="app_name">Matrimonial App</string>
+    <string name="progress_message_loading">Loading…</string>
+    <string name="alert_message_something_went_wrong">Something went wrong, please try again.</string>
 </resources>
