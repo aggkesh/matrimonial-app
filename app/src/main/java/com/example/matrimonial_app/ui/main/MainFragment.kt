@@ -37,10 +37,13 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
         val retryView = view.findViewById<Button>(R.id.retry_view)
+        retryView.setOnClickListener { viewModel.loadUsers() }
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(requireContext())
         }
-        val adaptor = UserRecycleViewAdaptor(ArrayList())
+        val adaptor = UserRecycleViewAdaptor(emptyList()) { userId: String, selection: Boolean ->
+            viewModel.updateUserSelection(userId, selection)
+        }
         recyclerView.adapter = adaptor
 
         viewModel.screenState.observe(viewLifecycleOwner, Observer<MainScreenState> {
@@ -63,5 +66,4 @@ class MainFragment : Fragment() {
         })
         viewModel.loadUsers()
     }
-
 }

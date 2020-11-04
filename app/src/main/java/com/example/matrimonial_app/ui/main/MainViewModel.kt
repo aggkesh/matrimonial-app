@@ -22,6 +22,7 @@ typealias MainScreenState = ScreenState<Int, Int, List<UserUiModel>>
  */
 class MainViewModel(private val matrimonialUserRepo: MatrimonialUserRepo) : ViewModel() {
     private val _screenState = MutableLiveData<MainScreenState>()
+    private var userData: MutableList<UserUiModel>? = null
 
     /**
      * [LiveData] of the state of the screen, wrapped in a [ScreenState] object
@@ -36,9 +37,27 @@ class MainViewModel(private val matrimonialUserRepo: MatrimonialUserRepo) : View
                 _screenState.value = if (first != null) {
                     ScreenState.Error(R.string.alert_message_something_went_wrong)
                 } else {
-                    ScreenState.Data(second?.let {
-                        it.map { user -> DoToUiModel.fromUserToUserUiModel(user) }
+                    ScreenState.Data(second?.let { users ->
+                        users.map { user -> DoToUiModel.fromUserToUserUiModel(user) }
+                            .also { userData = it.toMutableList() }
                     } ?: kotlin.run { emptyList<UserUiModel>() })
+                }
+            }
+        }
+    }
+
+    fun updateUserSelection(userId: String, userSelected: Boolean) {
+        viewModelScope.launch {
+            matrimonialUserRepo.updateUserSelection(userId, userSelected).run {
+                DoToUiModel.fromUserToUserUiModel(this)
+            }.let {
+                userData?.let { list ->
+                    list.forEachIndexed { index, userUiModel ->
+                        if (userUiModel.userId == it.userId) {
+                            userData?.set(index, it)
+                            _screenState.value = ScreenState.Data(list)
+                        }
+                    }
                 }
             }
         }

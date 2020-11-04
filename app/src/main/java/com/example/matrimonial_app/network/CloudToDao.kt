@@ -69,6 +69,8 @@ object CloudToDao {
             gender = userResponseModel.gender,
             firstName = userResponseModel.userNameResponseModel.first,
             lastName = userResponseModel.userNameResponseModel.last,
+            cellNumber = userResponseModel.cell,
+            phoneNumber = userResponseModel.phone,
             picture = userResponseModel.userPictureResponseModel?.let {
                 fromUserPictureResponseModelToPicture(it)
             }

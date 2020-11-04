@@ -19,6 +19,11 @@ class MatrimonialUserRepo(
         return if (shouldFetchData(userList)) fetchAndSaveUser(userCount) else Pair(null, userList)
     }
 
+    suspend fun updateUserSelection(userId: String, selection: Boolean): User = withContext(Dispatchers.IO) {
+        userDao.updateUserSelection(userId, selection)
+        return@withContext userDao.getUser(userId)
+    }
+
     private suspend fun fetchAndSaveUser(userCount: Int): Pair<String?, List<User>?> = withContext(Dispatchers.IO) {
         // launch the services to load data
         return@withContext try {

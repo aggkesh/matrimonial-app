@@ -9,6 +9,7 @@ object DoToUiModel {
 
     fun fromUserToUserUiModel(user: User): UserUiModel {
         return UserUiModel(
+            userId = user.uuid,
             name = getName(user.userDetail),
             address = getAddress(user.address),
             age = 26,
