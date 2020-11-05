@@ -6,6 +6,11 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.matrimonial_app.database.entity.User
 
+/**
+ * Created by Keshav Aggarwal 11/3/2020
+ *
+ * User Room Database class
+ */
 @Database(entities = [User::class], version = 1, exportSchema = false)
 abstract class UsersRoomDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

@@ -6,6 +6,11 @@ import androidx.room.Entity
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+/**
+ * Created by Keshav Aggarwal 11/3/2020
+ *
+ * Entity class to hold user data
+ */
 @Entity(
     tableName = "user_table",
     indices = [Index(value = ["user_name", "password", "email_id"], unique = true)]

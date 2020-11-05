@@ -1,4 +1,4 @@
-package com.example.matrimonial_app.ui.main
+package com.example.matrimonial_app.ui.main.viewmodels
 
 /**
  * Created by Keshav Aggarwal 11/2/2020

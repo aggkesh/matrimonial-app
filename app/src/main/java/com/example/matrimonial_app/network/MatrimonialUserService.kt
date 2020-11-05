@@ -10,6 +10,13 @@ import retrofit2.http.Query
  * A retrofit service to fetch matrimonial users
  */
 interface MatrimonialUserService {
+
+    /**
+     * Fetch Users
+     *
+     * @param result number of users to fetch
+     * @param seed seed value for user
+     */
     @GET("api/")
-    suspend fun fetchUsers(@Query("results") result: Int, @Query("seed") seed: String = "abc"): MatrimonialResponseModel
+    suspend fun fetchUsers(@Query("results") result: Int, @Query("seed") seed: String): MatrimonialResponseModel
 }

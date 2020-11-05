@@ -9,8 +9,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.matrimonial_app.R
+import com.example.matrimonial_app.ui.main.models.UserUiModel
 import com.squareup.picasso.Picasso
-import java.util.Objects
 
 class UserRecycleViewAdaptor(
     private var userList: List<UserUiModel>,
@@ -28,11 +28,12 @@ class UserRecycleViewAdaptor(
 
         fun bindItem(userUiModel: UserUiModel, selectUser: (userId: String, selected: Boolean) -> Unit) {
             Picasso.get().load(userUiModel.imageUrl)
+                .fit().centerCrop()
                 .error(R.drawable.person_drawable)
                 .placeholder(R.drawable.progress_animation)
                 .into(v.findViewById<ImageView>(R.id.image))
             v.findViewById<TextView>(R.id.name).also { it.text = userUiModel.name }
-            v.findViewById<TextView>(R.id.dob_txt).also { it.text = userUiModel.age.toString() }
+            v.findViewById<TextView>(R.id.dob_txt).also { it.text = userUiModel.dob }
             v.findViewById<TextView>(R.id.phn_text).also { it.text = userUiModel.number }
             v.findViewById<TextView>(R.id.address).also { it.text = userUiModel.address }
             val declinedText = v.findViewById<TextView>(R.id.declined_txt)
@@ -92,30 +93,5 @@ class UserRecycleViewAdaptor(
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.bindItem(userList[position], selectUserAction)
-    }
-
-    class DiffCallback(
-        private val oldUserUiModels: List<UserUiModel>,
-        private val newUserUiModels: List<UserUiModel>
-    ) : DiffUtil.Callback() {
-
-        override fun getOldListSize(): Int = oldUserUiModels.size
-
-        override fun getNewListSize(): Int = newUserUiModels.size
-
-        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean =
-            oldUserUiModels[oldItemPosition].userId == newUserUiModels[newItemPosition].userId
-
-        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
-            val oldUserUiModel = oldUserUiModels[oldItemPosition]
-            val newUserUiModel = newUserUiModels[newItemPosition]
-            return oldUserUiModel.name == newUserUiModel.name &&
-                    oldUserUiModel.age == newUserUiModel.age &&
-                    oldUserUiModel.number == newUserUiModel.number &&
-                    oldUserUiModel.address == newUserUiModel.address &&
-                    Objects.equals(oldUserUiModel.imageUrl, newUserUiModel.imageUrl) &&
-                    Objects.equals(oldUserUiModel.selected, newUserUiModel.selected)
-        }
-
     }
 }

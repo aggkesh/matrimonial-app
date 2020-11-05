@@ -10,8 +10,16 @@ import com.example.matrimonial_app.network.models.UserPictureResponseModel
 import com.example.matrimonial_app.network.models.UserResponseModel
 import kotlin.jvm.Throws
 
+/**
+ * Created by Keshav Aggarwal 11/2/2020
+ *
+ * Convert Cloud Response Model to Database object
+ */
 object CloudToDao {
 
+    /**
+     * Convert [UserResponseModel] to [User]
+     */
     @Throws(NumberFormatException::class)
     fun fromUserResponseModelToUserDao(userResponseModel: UserResponseModel): User? {
         val userLoginResponseModel = userResponseModel.userLoginResponseModel ?: return null
@@ -37,6 +45,9 @@ object CloudToDao {
         )
     }
 
+    /**
+     * Convert [UserLocationResponseModel] to [Address]
+     */
     @Throws(NumberFormatException::class)
     private fun fromUserLocationResponseModelToAddress(userLocationResponseModel: UserLocationResponseModel): Address? {
         // Validate the Location response
@@ -61,9 +72,13 @@ object CloudToDao {
         )
     }
 
+    /**
+     * Convert [UserResponseModel] to [UserDetail]
+     */
     private fun fromUserResponseModelToUserDetail(userResponseModel: UserResponseModel): UserDetail? {
         userResponseModel.gender ?: return null
         userResponseModel.userNameResponseModel?.first ?: return null
+        userResponseModel.userDobResponseModel?.data ?: return null
 
         return UserDetail(
             gender = userResponseModel.gender,
@@ -71,12 +86,16 @@ object CloudToDao {
             lastName = userResponseModel.userNameResponseModel.last,
             cellNumber = userResponseModel.cell,
             phoneNumber = userResponseModel.phone,
+            dateOfBirth = userResponseModel.userDobResponseModel.data,
             picture = userResponseModel.userPictureResponseModel?.let {
                 fromUserPictureResponseModelToPicture(it)
             }
         )
     }
 
+    /**
+     * Convert [UserPictureResponseModel] to [Picture]
+     */
     private fun fromUserPictureResponseModelToPicture(
         userPictureResponseModel: UserPictureResponseModel
     ): Picture {

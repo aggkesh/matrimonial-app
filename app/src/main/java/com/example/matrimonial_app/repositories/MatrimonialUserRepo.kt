@@ -8,6 +8,11 @@ import com.example.matrimonial_app.network.MatrimonialUserService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+/**
+ * Created by Keshav Aggarwal 11/4/2020
+ *
+ * Matrimonial User Repo class used for fetching users from Network & Database
+ */
 class MatrimonialUserRepo(
     private val matrimonialUserService: MatrimonialUserService,
     private val userDao: UserDao
@@ -27,7 +32,7 @@ class MatrimonialUserRepo(
     private suspend fun fetchAndSaveUser(userCount: Int): Pair<String?, List<User>?> = withContext(Dispatchers.IO) {
         // launch the services to load data
         return@withContext try {
-            matrimonialUserService.fetchUsers(userCount).userResponseModelList?.mapNotNull {
+            matrimonialUserService.fetchUsers(userCount, SEED).userResponseModelList?.mapNotNull {
                 CloudToDao.fromUserResponseModelToUserDao(it)
             }?.also {
                 saveUsers(it)
@@ -47,4 +52,8 @@ class MatrimonialUserRepo(
     private suspend fun saveUsers(data: List<User>) = withContext(Dispatchers.IO) { userDao.insertAll(data) }
 
     private suspend fun loadFromDb() = withContext(Dispatchers.IO) { userDao.getUsers() }
+
+    companion object {
+        private const val SEED = "abc"
+    }
 }

@@ -12,7 +12,15 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.matrimonial_app.R
+import com.example.matrimonial_app.ui.main.viewmodels.MainScreenState
+import com.example.matrimonial_app.ui.main.viewmodels.MainViewModel
+import com.example.matrimonial_app.ui.main.viewmodels.ScreenState
 
+/**
+ * Created by Keshav Aggarwal 11/4/2020
+ *
+ * Fragment used to show users data
+ */
 class MainFragment : Fragment() {
 
     companion object {
@@ -50,9 +58,11 @@ class MainFragment : Fragment() {
             when (it) {
                 is ScreenState.Loading -> {
                     progressBar.visibility = View.VISIBLE
+                    retryView.visibility = View.GONE
                 }
                 is ScreenState.Data -> {
                     progressBar.visibility = View.GONE
+                    retryView.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                     adaptor.setData(it.data)
                     adaptor.notifyDataSetChanged()
