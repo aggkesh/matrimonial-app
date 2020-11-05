@@ -32,6 +32,10 @@ class MainViewModel(private val matrimonialUserRepo: MatrimonialUserRepo) : View
     val screenState: LiveData<MainScreenState>
         get() = _screenState
 
+    init {
+        loadUsers()
+    }
+
     /**
      * Load list of users
      */

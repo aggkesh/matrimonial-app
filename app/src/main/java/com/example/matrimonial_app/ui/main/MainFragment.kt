@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ProgressBar
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -44,8 +44,8 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val progressBar = view.findViewById<ProgressBar>(R.id.progress_bar)
-        val retryView = view.findViewById<Button>(R.id.retry_view)
-        retryView.setOnClickListener { viewModel.loadUsers() }
+        val retrybtn = view.findViewById<ImageButton>(R.id.retry_view)
+        retrybtn.setOnClickListener { viewModel.loadUsers() }
         val recyclerView = view.findViewById<RecyclerView>(R.id.recycler_view).apply {
             layoutManager = LinearLayoutManager(requireContext())
         }
@@ -58,11 +58,11 @@ class MainFragment : Fragment() {
             when (it) {
                 is ScreenState.Loading -> {
                     progressBar.visibility = View.VISIBLE
-                    retryView.visibility = View.GONE
+                    retrybtn.visibility = View.GONE
                 }
                 is ScreenState.Data -> {
                     progressBar.visibility = View.GONE
-                    retryView.visibility = View.GONE
+                    retrybtn.visibility = View.GONE
                     recyclerView.visibility = View.VISIBLE
                     adaptor.setData(it.data)
                     adaptor.notifyDataSetChanged()
@@ -70,10 +70,9 @@ class MainFragment : Fragment() {
                 is ScreenState.Error -> {
                     progressBar.visibility = View.GONE
                     recyclerView.visibility = View.GONE
-                    retryView.visibility = View.VISIBLE
+                    retrybtn.visibility = View.VISIBLE
                 }
             }
         })
-        viewModel.loadUsers()
     }
 }

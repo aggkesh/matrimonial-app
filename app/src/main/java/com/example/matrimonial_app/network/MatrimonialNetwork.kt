@@ -6,6 +6,7 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.jackson.JacksonConverterFactory
+import java.util.concurrent.TimeUnit
 
 /**
  * Created by Keshav Aggarwal 11/2/2020
@@ -16,6 +17,7 @@ object MatrimonialNetwork {
     private const val CONTENT_TYPE = "Content-Type"
     private const val APPLICATION_JSON = "application/json"
     private const val BASE_URL = "https://randomuser.me/"
+    private const val CONNECT_TIMEOUT = 1000L
 
     private val loggingInterceptor: HttpLoggingInterceptor
         get() {
@@ -27,6 +29,7 @@ object MatrimonialNetwork {
     private val httpClient: OkHttpClient
         get() {
             return OkHttpClient.Builder()
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.MILLISECONDS)
                 .addInterceptor { chain ->
                     val request = chain.request().newBuilder()
                         .addHeader(CONTENT_TYPE, APPLICATION_JSON)

@@ -27,15 +27,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
+    <ImageButton
         android:id="@+id/retry_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/retry_btn"
-        android:visibility="gone"
+        android:src="@drawable/ic_action_retry"
+        android:background="@drawable/button_bg_round_retry"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="@string/retry_btn_description" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
